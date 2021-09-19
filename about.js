@@ -1,6 +1,7 @@
 const http = require("http");
 const fs = require("fs");
 
+const hostname = "localhost";
 const port = 3111;
 
 const server = http.createServer((request, response) => {
@@ -45,8 +46,8 @@ const ErrorPage = (response) => {
     response.write("Error");
 }
 
-server.listen(port, (error) => {
+server.listen(port, hostname, (error) => {
     if(error) return console.log(error);
 
-    console.log("Server listening on port: " + port);
+    console.log(`Server running at http://${hostname}:${port}/`);
 });
