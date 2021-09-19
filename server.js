@@ -16,16 +16,19 @@ const server = http.createServer((request, response) => {
     // Read the index.html and write it to client
     fs.readFile("index.html", (error, data) => {
         // 404 error
-        if(error) return ErrorPage();
+        if(error) return ErrorPage(response);
 
         response.write(data);
-    });
-
-    // End the response so client recieve it
-    response.end();
+        // End the response so client recieve it
+        response.end();
+    }); 
 });
 
-
+// 404 page
+const ErrorPage = (response) => {
+    response.writeHead(404);
+    response.write("Error");
+}
 
 // Make the server live by listening on the port specified or print out error
 server.listen(port, (error) => {
