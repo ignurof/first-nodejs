@@ -1,8 +1,6 @@
 const http = require("http");
-const fs = require("fs");
 
-//local lib
-const about = require("./about");
+const aboutPage = require("./about.js");
 
 const hostname = "localhost";
 const port = 3111;
@@ -30,10 +28,11 @@ const server = http.createServer((request, response) => {
         var url = request.url;
 
         if(url == "/about"){
-            return about.AboutPage(response);
+          return aboutPage(response);
         }
 
-        return;
+        // if main root path
+        return aboutPage(response);;
       }
       
       // The early returns should make sure the client doesnt end up here
