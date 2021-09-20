@@ -31,13 +31,18 @@ const server = http.createServer((request, response) => {
         }
 
         // if main root path
-        return AboutPage(response);;
+        return DefaultPage(response);;
       }
       
       // The early returns should make sure the client doesnt end up here
       response.writeHead(405, headers);
       response.end(`${request.method} is not allowed for the request.`);
 });
+
+const DefaultPage = (response ) => {
+  response.write("Something went wrong with server request, contact admin.");
+  response.end();
+}
 
 const AboutPage = (response) => {
   // Read the file
