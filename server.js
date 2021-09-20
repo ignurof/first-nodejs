@@ -1,6 +1,5 @@
 const http = require("http");
-
-const aboutPage = require("./about.js");
+const fs = require("fs");
 
 const hostname = "localhost";
 const port = 3111;
@@ -28,17 +27,37 @@ const server = http.createServer((request, response) => {
         var url = request.url;
 
         if(url == "/about"){
-          return aboutPage(response);
+          return AboutPage(response);
         }
 
         // if main root path
-        return aboutPage(response);;
+        return AboutPage(response);;
       }
       
       // The early returns should make sure the client doesnt end up here
       response.writeHead(405, headers);
       response.end(`${request.method} is not allowed for the request.`);
 });
+
+const AboutPage = (response) => {
+  // Read the file
+  fs.readFile("about.txt", (error, data) => {
+    // 404 error
+    if(error) return ErrorPage(response);
+
+    response.write(data);
+    // End the response so client recieve it
+    response.end();
+  }); 
+}
+
+// 404 page
+const ErrorPage = (response) => {
+  response.writeHead(404);
+  response.write("Error");
+  // End the response so client recieve it
+  response.end();
+}
 
 server.listen(port, hostname, (error) => {
     if(error) return console.log(error);
