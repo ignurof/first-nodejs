@@ -7,9 +7,10 @@ const port = 3111;
 
 const server = http.createServer((request, response) => {
     // Header gets return to client during preflight request
-    const apiHeaders = {
+    const headers = {
         // Allow-Origin decides where the request can come from, limited for security purposes
-        "Access-Control-Allow-Origin": "api.ignurof.xyz",
+        // Because the frontend is hosted on http://ignurof.xyz and the fetch call gets made there, the origin is this
+        "Access-Control-Allow-Origin": "http://ignurof.xyz",
         // Allow-Methods dictates which reqest the client can send, OPTIONS is for the preflight requests
         "Access-Control-Allow-Methods": "OPTIONS, POST, GET",
         "Access-Control-Max-Age": 2592000, // 30 days stored on browser cache TODO: Figure out optimal max-age
@@ -22,7 +23,7 @@ const server = http.createServer((request, response) => {
     // aka preflight request
     if (request.method === "OPTIONS") {
         // Send back statuscode during preflight request and assign the appropriate header values
-        response.writeHead(204, apiHeaders);
+        response.writeHead(204, headers);
         // End response so client can recieve data, in this case the preflight options response
         response.end();
         return;
@@ -32,18 +33,16 @@ const server = http.createServer((request, response) => {
     // Not Not False = True, means if GET or POST is available, this is true
     // if(var) = if true, (!var) = if not true, (!!var) == if not not true = true
     if (["GET", "POST"].indexOf(request.method) > -1) {
+        // OK/SUCCESS response to client here
+        response.writeHead(200, headers);
+
         // reference url
         let url = request.url;
         // reference request host (domain name of endpoint)
         let ref = request.headers.host;
-        // server side debug
-        console.log(ref);
-        
+
         // Endpoint security measure
         if(ref == "api.ignurof.xyz"){
-            // OK/SUCCESS response to client here
-            response.writeHead(200, apiHeaders);
-
             // API Routing http://api.ignurof.xyz?name=n1&name=n2
             if(url == "/about"){
                 return pages.AboutPage(response);
@@ -51,6 +50,9 @@ const server = http.createServer((request, response) => {
             if(url == "/projects"){
                 return pages.ProjectsPage(response);
             }
+
+            // we should not end up here
+            return pages.DefaultPage(response);
         }
         
         // if no route is chosen or the route does not exist, give this result, also if endpoint does not exist
@@ -60,7 +62,7 @@ const server = http.createServer((request, response) => {
 
     // The early returns should make sure the client doesnt end up here
     // We end up here if["GET", "POST"].indexOf(request.method)=false meaning there was not a proper request method header
-    response.writeHead(405, apiHeaders);
+    response.writeHead(405, headers);
     response.end(`${request.method} is not allowed for the request.`);
 });
 
