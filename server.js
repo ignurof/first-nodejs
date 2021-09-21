@@ -36,6 +36,13 @@ const server = http.createServer((request, response) => {
         // OK/SUCCESS response to client here
         let url = request.url;
 
+        let ref = request.headers.host;
+
+        // Test endpoint security by not allowing other endpoints
+        if(!ref == "api.ignurof.xyz"){
+            return pages.DefaultPage(response);
+        }
+
         // API Routing http://api.ignurof.xyz?name=n1&name=n2
         if(url == "/about"){
             return pages.AboutPage(response);
