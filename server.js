@@ -45,7 +45,7 @@ const server = http.createServer((request, response) => {
         }
 
         // if no route is chosen or the route does not exist, give this result
-        return DefaultPage(response);;
+        return pages.DefaultPage(response);;
     }
 
     // The early returns should make sure the client doesnt end up here
@@ -53,11 +53,6 @@ const server = http.createServer((request, response) => {
     response.writeHead(405, headers);
     response.end(`${request.method} is not allowed for the request.`);
 });
-
-const DefaultPage = (response ) => {
-    response.write("Something went wrong with server request, contact admin.");
-    response.end();
-}
 
 server.listen(port, hostname, (error) => {
     if(error) return console.log(error);
