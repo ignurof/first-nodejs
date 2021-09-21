@@ -28,7 +28,7 @@ const server = http.createServer((request, response) => {
         return;
     }
 
-    // den var utan !! först och kollade istället > -1,  då funkade den. TODO: ta reda på varför detta inte funkar
+    // TODO: Figure out why I cant do !! instead of > -1
     // Not Not False = True, means if GET or POST is available, this is true
     // if(var) = if true, (!var) = if not true, (!!var) == if not not true = true
     if (["GET", "POST"].indexOf(request.method) > -1) {
@@ -36,7 +36,7 @@ const server = http.createServer((request, response) => {
         // OK/SUCCESS response to client here
         let url = request.url;
 
-        // API Routing https://www.example.com?name=n1&name=n2
+        // API Routing http://api.ignurof.xyz?name=n1&name=n2
         if(url == "/about"){
             return pages.AboutPage(response);
         }
@@ -54,6 +54,7 @@ const server = http.createServer((request, response) => {
     response.end(`${request.method} is not allowed for the request.`);
 });
 
+// Callback function for what is happening on server.listen
 server.listen(port, hostname, (error) => {
     if(error) return console.log(error);
 
