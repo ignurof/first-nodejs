@@ -37,22 +37,22 @@ const server = http.createServer((request, response) => {
         let url = request.url;
 
         let ref = request.headers.host;
-
-        // Test endpoint security by not allowing other endpoints
-        if(!ref == "api.ignurof.xyz"){
-            return pages.DefaultPage(response);
+        console.log(ref);
+        
+        // Endpoint security measure
+        if(ref == "api.ignurof.xyz"){
+            // API Routing http://api.ignurof.xyz?name=n1&name=n2
+            if(url == "/about"){
+                return pages.AboutPage(response);
+            }
+            if(url == "/projects"){
+                return pages.ProjectsPage(response);
+            }
         }
-
-        // API Routing http://api.ignurof.xyz?name=n1&name=n2
-        if(url == "/about"){
-            return pages.AboutPage(response);
-        }
-        if(url == "/projects"){
-            return pages.ProjectsPage(response);
-        }
-
-        // if no route is chosen or the route does not exist, give this result
-        return pages.DefaultPage(response);;
+        
+        // if no route is chosen or the route does not exist, give this result, also if endpoint does not exist
+        // this is thanks to early returns so we should not end up here in optimal scenario
+        return pages.DefaultPage(response);
     }
 
     // The early returns should make sure the client doesnt end up here
