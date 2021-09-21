@@ -7,7 +7,7 @@ const port = 3111;
 
 const server = http.createServer((request, response) => {
     // Header gets return to client during preflight request
-    const headers = {
+    const mainHeaders = {
         // Allow-Origin decides where the request can come from, limited for security purposes
         // Because the frontend is hosted on http://ignurof.xyz and the fetch call gets made there, the origin is this
         "Access-Control-Allow-Origin": "http://ignurof.xyz",
@@ -19,30 +19,31 @@ const server = http.createServer((request, response) => {
         "Content-Type": "text/json" // last dont need the comma
     };
 
-    // Before client access site their browser checks for header options
-    // aka preflight request
-    if (request.method === "OPTIONS") {
-        // Send back statuscode during preflight request and assign the appropriate header values
-        response.writeHead(204, headers);
-        // End response so client can recieve data, in this case the preflight options response
-        response.end();
-        return;
-    }
+    // reference url
+    let url = request.url;
+    // reference request host (domain name of endpoint)
+    let ref = request.headers.host;
 
-    // TODO: Figure out why I cant do !! instead of > -1
-    // Not Not False = True, means if GET or POST is available, this is true
-    // if(var) = if true, (!var) = if not true, (!!var) == if not not true = true
-    if (["GET", "POST"].indexOf(request.method) > -1) {
-        // OK/SUCCESS response to client here
-        response.writeHead(200, headers);
+    // Endpoint security measure
+    if(ref == "api.ignurof.xyz"){
+        // Before client access site their browser checks for header options
+        // aka preflight request
+        if (request.method === "OPTIONS") {
+            // Send back statuscode during preflight request and assign the appropriate header values
+            response.writeHead(204, mainHeaders);
+            // End response so client can recieve data, in this case the preflight options response
+            response.end();
+            return;
+        }
 
-        // reference url
-        let url = request.url;
-        // reference request host (domain name of endpoint)
-        let ref = request.headers.host;
+        // TODO: Figure out why I cant do !! instead of > -1
+        // Not Not False = True, means if GET or POST is available, this is true
+        // if(var) = if true, (!var) = if not true, (!!var) == if not not true = true
+        if (["GET", "POST"].indexOf(request.method) > -1) {
+            // OK/SUCCESS response to client here
+            response.writeHead(200, mainHeaders);
 
-        // Endpoint security measure
-        if(ref == "api.ignurof.xyz"){
+            
             // API Routing http://api.ignurof.xyz?name=n1&name=n2
             if(url == "/about"){
                 return pages.AboutPage(response);
@@ -53,17 +54,17 @@ const server = http.createServer((request, response) => {
 
             // we should not end up here
             return pages.DefaultPage(response);
+        } else {
+            // We end up here if["GET", "POST"].indexOf(request.method)=false meaning there was not a proper request method header
+            response.writeHead(405, mainHeaders);
+            response.end(`${request.method} is not allowed for the request.`);
         }
-        
-        // if no route is chosen or the route does not exist, give this result, also if endpoint does not exist
-        // this is thanks to early returns so we should not end up here in optimal scenario
-        return pages.DefaultPage(response);
     }
 
     // The early returns should make sure the client doesnt end up here
-    // We end up here if["GET", "POST"].indexOf(request.method)=false meaning there was not a proper request method header
-    response.writeHead(405, headers);
-    response.end(`${request.method} is not allowed for the request.`);
+    // we end up here if no proper 
+    response.writeHead(405, mainHeaders);
+    response.end(`Endpoint is not available right now.`);
 });
 
 // Callback function for what is happening on server.listen
