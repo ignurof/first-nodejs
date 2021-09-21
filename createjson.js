@@ -1,3 +1,5 @@
+// This file is just for testing purposes
+
 const fs = require("fs");
 const ErrorPage = require("./errors.js");
 
