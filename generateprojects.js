@@ -28,6 +28,11 @@ const GenerateProjectList = (response) => {
 	fs.writeFile("projectList.json", inputObject, (errorTwo) => {
 		if(errorTwo) return ErrorPage(response);
 	});
+
+	// Write the data to the client
+	response.write("Generated Projects List");
+	// End the response so client recieve it
+	response.end();
 }
 
 module.exports = GenerateProjectList;
