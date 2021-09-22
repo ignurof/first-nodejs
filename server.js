@@ -23,6 +23,9 @@ const server = http.createServer((request, response) => {
     };
 
     const privateHeaders = {
+        // Have now confirmed that you cannot make fetch calls to this endpoint from a different domain
+        // But hacker could still send the request to the correct api url
+        // This means that server has to verify every request to make sure authkey is present
         "Access-Control-Allow-Origin": "http://admin.ignurof.xyz",
         "Access-Control-Allow-Methods": "OPTIONS, POST, GET",
         "Access-Control-Max-Age": 2592000, 
@@ -78,6 +81,7 @@ const server = http.createServer((request, response) => {
     // Check the password against the encrypted pw with private key
     // If successfull, authorize the request here on server, otherwise deny and show deny message
     if(ref == "private.ignurof.xyz"){
+        // Preflight
         if(request.method == "OPTIONS"){
             response.writeHead(204, privateHeaders);
             response.end();
@@ -85,6 +89,7 @@ const server = http.createServer((request, response) => {
             return; 
         }
 
+        // Check available request method
         if (["GET", "POST"].indexOf(request.method) > -1) {
             response.writeHead(200, privateHeaders);
 

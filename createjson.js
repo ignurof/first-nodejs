@@ -9,10 +9,7 @@ const CreateJSON = (response) => {
 		"title": "hej",
 		"summary": "sad",
 		"content": "asdasd",
-		"imageA": "aadasd",
-		"imageB": "asdsad",
-		"imageC": "adssad",
-		"imageD": "assad",
+		"images": ["one", "two", "three", "four"]
 	};
 
 	let inputObject = JSON.stringify(testProjects);
