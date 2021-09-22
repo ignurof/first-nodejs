@@ -9,7 +9,7 @@ const port = 3111;
 
 const server = http.createServer((request, response) => {
     // Header gets return to client during preflight request
-    const mainHeaders = {
+    const publicHeaders = {
         // Allow-Origin decides where the request can come from, limited for security purposes
         // Because the frontend is hosted on http://ignurof.xyz and the fetch call gets made there, the origin is this
         // Pretty sure this also catches all subdomains after some testing, so for security there should be specific headers for specific endpoints
@@ -22,18 +22,25 @@ const server = http.createServer((request, response) => {
         "Content-Type": "text/json" // last dont need the comma
     };
 
+    const privateHeaders = {
+        "Access-Control-Allow-Origin": "http://admin.ignurof.xyz",
+        "Access-Control-Allow-Methods": "OPTIONS, POST, GET",
+        "Access-Control-Max-Age": 2592000, 
+        "Content-Type": "text/json"
+    };
+
     // Reference url
     let url = request.url;
     // Reference request host (domain name of endpoint)
     let ref = request.headers.host;
 
-    // Endpoint security measure
+    // Endpoint security measure - PUBLIC API
     if(ref == "api.ignurof.xyz"){
         // Before client access site their browser checks for header options
         // aka preflight request
         if (request.method === "OPTIONS") {
             // Send back statuscode during preflight request and assign the appropriate header values
-            response.writeHead(204, mainHeaders);
+            response.writeHead(204, publicHeaders);
             // End response so client can recieve data, in this case the preflight options response
             response.end();
             return;
@@ -44,7 +51,7 @@ const server = http.createServer((request, response) => {
         // if(var) = if true, (!var) = if not true, (!!var) == if not not true = true
         if (["GET", "POST"].indexOf(request.method) > -1) {
             // OK/SUCCESS response to client here
-            response.writeHead(200, mainHeaders);
+            response.writeHead(200, publicHeaders);
 
             // API Routing http://api.ignurof.xyz?name=n1&name=n2
             if(url == "/about"){
@@ -58,7 +65,27 @@ const server = http.createServer((request, response) => {
             return pages.DefaultPage(response);
         } else {
             // We end up here if["GET", "POST"].indexOf(request.method)=false meaning there was not a proper request method header
-            response.writeHead(405, mainHeaders);
+            response.writeHead(405, publicHeaders);
+            response.end(`${request.method} is not allowed for the request.`);
+            return;
+        }
+    }
+
+    // Endpoint security measure - PRIVATE API (admin stuff)
+    if(ref == "private.ignurof.xyz"){
+        if(request.method == "OPTIONS"){
+            response.writeHead(204, privateHeaders);
+            response.end();
+            // leave the thing completely after recieving options so client can recieve proper page
+            return; 
+        }
+
+        if (["GET", "POST"].indexOf(request.method) > -1) {
+            response.writeHead(200, privateHeaders);
+
+            return pages.DefaultPage(response);
+        } else {
+            response.writeHead(405, privateHeaders);
             response.end(`${request.method} is not allowed for the request.`);
             return;
         }
@@ -66,7 +93,7 @@ const server = http.createServer((request, response) => {
 
     // The early returns should make sure the client doesnt end up here
     // we end up here if no proper endpoint
-    response.writeHead(405, mainHeaders);
+    response.writeHead(405, publicHeaders);
     response.end(`Endpoint is not available right now.`);
 });
 
