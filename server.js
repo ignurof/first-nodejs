@@ -3,6 +3,9 @@ const http = require("http");
 // Get all module.exports from pages.js
 const pages = require("./pages.js");
 
+//test
+const CreateJSON = require("./createjson.js");
+
 // IP:PORT
 const hostname = "localhost";
 const port = 3111;
@@ -92,6 +95,11 @@ const server = http.createServer((request, response) => {
         // Check available request method
         if (["GET", "POST"].indexOf(request.method) > -1) {
             response.writeHead(200, privateHeaders);
+
+            // API Routing http://private.ignurof.xyz?name=n1&name=n2
+            if(url == "/test"){
+                return CreateJSON(response);
+            }
 
             return pages.DefaultPage(response);
         } else {
