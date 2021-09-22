@@ -1,7 +1,9 @@
 const http = require("http");
 
+// Get all module.exports from pages.js
 const pages = require("./pages.js");
 
+// IP:PORT
 const hostname = "localhost";
 const port = 3111;
 
@@ -10,6 +12,7 @@ const server = http.createServer((request, response) => {
     const mainHeaders = {
         // Allow-Origin decides where the request can come from, limited for security purposes
         // Because the frontend is hosted on http://ignurof.xyz and the fetch call gets made there, the origin is this
+        // Pretty sure this also catches all subdomains after some testing, so for security there should be specific headers for specific endpoints
         "Access-Control-Allow-Origin": "http://ignurof.xyz",
         // Allow-Methods dictates which reqest the client can send, OPTIONS is for the preflight requests
         "Access-Control-Allow-Methods": "OPTIONS, POST, GET",
@@ -19,9 +22,9 @@ const server = http.createServer((request, response) => {
         "Content-Type": "text/json" // last dont need the comma
     };
 
-    // reference url
+    // Reference url
     let url = request.url;
-    // reference request host (domain name of endpoint)
+    // Reference request host (domain name of endpoint)
     let ref = request.headers.host;
 
     // Endpoint security measure
@@ -43,7 +46,6 @@ const server = http.createServer((request, response) => {
             // OK/SUCCESS response to client here
             response.writeHead(200, mainHeaders);
 
-            
             // API Routing http://api.ignurof.xyz?name=n1&name=n2
             if(url == "/about"){
                 return pages.AboutPage(response);
@@ -58,11 +60,12 @@ const server = http.createServer((request, response) => {
             // We end up here if["GET", "POST"].indexOf(request.method)=false meaning there was not a proper request method header
             response.writeHead(405, mainHeaders);
             response.end(`${request.method} is not allowed for the request.`);
+            return;
         }
     }
 
     // The early returns should make sure the client doesnt end up here
-    // we end up here if no proper 
+    // we end up here if no proper endpoint
     response.writeHead(405, mainHeaders);
     response.end(`Endpoint is not available right now.`);
 });
@@ -71,6 +74,7 @@ const server = http.createServer((request, response) => {
 server.listen(port, hostname, (error) => {
     if(error) return console.log(error);
 
+    // All console.log prints out on the server console
     console.log(`Server running at http://${hostname}:${port}/`);
 });
 
