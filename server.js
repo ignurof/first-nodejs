@@ -72,6 +72,11 @@ const server = http.createServer((request, response) => {
     }
 
     // Endpoint security measure - PRIVATE API (admin stuff)
+    // TODO: Need to make frontend admin.ignurof.xyz require auth
+    // Hardcoded admin password created with encryption
+    // When admin logs in with regular password on frontend
+    // Check the password against the encrypted pw with private key
+    // If successfull, authorize the request here on server, otherwise deny and show deny message
     if(ref == "private.ignurof.xyz"){
         if(request.method == "OPTIONS"){
             response.writeHead(204, privateHeaders);
