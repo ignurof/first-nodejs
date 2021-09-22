@@ -5,7 +5,12 @@ const ProjectsPage = (response) => {
 	// Open filestream and try to read the file
 	fs.readFile("projects.json", (error, data) => {
 		// 404 - If file does not exist, or other error
-		if(error) return ErrorPage(response); // TODO: Gör så att den istället för ErrorPage skapar filen med korrekt JSON struktur
+		if(error){
+			// Create new file if doesnt exist
+			fs.writeFile("projects.json", AddProject(), (error) => {
+				if(error) return ErrorPage(response);
+			});
+		}
 		// Write the data to the client
 		response.write(data);
 		// End the response so client recieve it
