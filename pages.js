@@ -4,7 +4,7 @@ const AboutPage = require("./about.js");
 const ProjectsPage = require("./projects.js");
 
 const DefaultPage = (response ) => {
-    response.write("Something went wrong with server request, contact admin.");
+    response.write("Default page display right now");
     response.end();
 }
 
