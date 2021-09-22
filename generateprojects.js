@@ -1,3 +1,5 @@
+const fs = require("fs");
+
 let projectList = {
 	"projects": []
 };
@@ -15,7 +17,7 @@ const AddProject = (id, title, summary, content, images) => {
 	projectList["projects"].push(project);
 }
 
-const GenerateProjectList = () => {
+const GenerateProjectList = (response) => {
 	// Add new project to projectList
 	AddProject("1", "Jetpack Doggo 1", "C#, Unity", "Text about the game", ["jp1.jpg", "jp2.jpg", "jp3.jpg", "jp4.jpg"]);
 	console.log(projectList);
