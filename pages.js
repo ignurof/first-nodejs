@@ -2,7 +2,7 @@
 
 const AboutPage = require("./about.js");
 const ProjectsPage = require("./projects.js");
-const GenerateProjectList = require("./generateprojects.js");
+
 
 const DefaultPage = (response ) => {
     response.write("Default page display right now");
@@ -13,6 +13,5 @@ const DefaultPage = (response ) => {
 module.exports = {
     AboutPage,
     ProjectsPage,
-    GenerateProjectList,
     DefaultPage
 };

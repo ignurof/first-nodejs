@@ -95,9 +95,6 @@ const server = http.createServer((request, response) => {
 
             // API Routing http://private.ignurof.xyz?name=n1&name=n2
             // TODO: Add admin routing stuff
-            if(url == "/generateprojects"){
-                return pages.GenerateProjectList(response);
-            }
 
             return pages.DefaultPage(response);
         } else {
