@@ -50,16 +50,17 @@ const ProjectsPage = (response) => {
 	fs.access("projectList.json", (error) => {
 		// If file does not exist, aka throws error
 		if(error){
-			console.log(error);
+			console.log("access error");
 			GenerateProjectList();
 		}
-		// If file exists, call the method that returns that contents of file
-		const data = ReadProjectsList();
-		// Write the data to client
-		response.write(data);
-		// Send to client
-    	response.end();
 	});
+
+	// If file exists, call the method that returns that contents of file
+	let output = ReadProjectsList();
+	// Write the data to client
+	response.write(output);
+	// Send to client
+	response.end();
 }
 
 
