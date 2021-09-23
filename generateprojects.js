@@ -27,7 +27,7 @@ const GenerateProjectList = (response) => {
 	// TODO FOR THE MORNING: Make it so it wont do this if the file already exists, and make it in projects.js so that if that doesnt exist then use this method
 	// Make all page method more modular by putting response in the routing area instead, maybe just end so I can pass data through the response with the methods
 	// Create new file
-	fs.writeFile("projectList.json", inputObject, (error) => {
+	fs.writeFile("projectList.json", projectList, (error) => {
 		if(error) return ErrorPage(response);
 	});
 }
