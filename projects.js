@@ -35,24 +35,30 @@ const GenerateProjectList = () => {
 	});
 }
 
-const ProjectsPage = (response) => {
+const ReadProjectsList = () => {
 	// Open filestream and try to read the file
 	fs.readFile("projectList.json", (error, data) => {
 		// 404 - If file does not exist, or other error
-		let isError = false;
+		if(error) throw error;
+
+		return data;
+	});
+}
+
+const ProjectsPage = (response) => {
+	//Check if file exists first
+	fs.access("projectList.json", (error) => {
+		// If file does not exist, aka throws error
 		if(error){
 			console.log(error);
-			isError = true;
+			GenerateProjectList();
 		}
-		// If the file does not exist
-		if(isError){
-			GenerateProjectList(response);
-		}
-
-		// Write the data to the client
+		// If file exists, call the method that returns that contents of file
+		const data = ReadProjectsList();
+		// Write the data to client
 		response.write(data);
-		// End the response so client recieve it
-		response.end();
+		// Send to client
+    	response.end();
 	});
 }
 
