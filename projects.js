@@ -40,7 +40,7 @@ const ProjectsPage = (response) => {
 	fs.readFile("projectList.json", (error, data) => {
 		// 404 - If file does not exist, or other error
 		if(error){
-			GenerateProjectList(response);
+			throw error;
 		}
 		// Write the data to the client
 		response.write(data);
