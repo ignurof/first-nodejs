@@ -1,4 +1,5 @@
 const http = require("http");
+const urlParams = require("url");
 
 // Get all module.exports from pages.js
 const pages = require("./pages.js");
@@ -66,9 +67,11 @@ const server = http.createServer((request, response) => {
             if(url == "/projects"){
                 return projects.ProjectsPage(response);
             }
-            if(url == "/project"){
+            if(url == "/project"){ // http://api.ignurof.xyz?projectID=1
+                // Use URL module to parse the query parameters from URL string
+                let paramsObject = urlParams.parse(url, true).query;
                 // pass the specific projectID to return correct project
-                return projects.GetProject(response, 1);
+                return projects.GetProject(response, paramsObject.projectID);
             }
 
             // we should not end up here
