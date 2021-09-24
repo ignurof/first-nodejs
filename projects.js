@@ -1,10 +1,12 @@
+// Import filesystem/filestream lib
 const fs = require("fs");
 
+// This is where I store all the projects during server uptime
 let projectList = {
 	"projects": []
 };
 
-// Adds a new project to the list. TODO: Make it so it appends to the actual file
+// Adds a new project to the list.
 const AddProject = (id, title, summary, content, images) => {
 	let project = {
 		"id": id,
@@ -14,13 +16,15 @@ const AddProject = (id, title, summary, content, images) => {
 		"images": images
 	};
 
-	// Append
+	// Append to list
 	projectList["projects"].push(project);
+
+	// TODO: Append to file
 }
 
 // Return a specific project response
 const GetProject = (response, id) => {
-	
+	// Declare variable to give back to client later
 	let data;
 
 	// Iterate over available projects and when correct one found, print out the entire object
@@ -81,7 +85,6 @@ const ProjectsPage = (response) => {
 	response.write(data);
 	response.end();
 }
-
 
 // Exports the method so it can be imported(require) in another file
 module.exports = {
