@@ -67,7 +67,8 @@ const server = http.createServer((request, response) => {
                 return projects.ProjectsPage(response);
             }
             if(url == "/project"){
-                return projects.GetProject(response);
+                // pass the specific projectID to return correct project
+                return projects.GetProject(response, 1);
             }
 
             // we should not end up here

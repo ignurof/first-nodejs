@@ -20,13 +20,20 @@ const AddProject = (id, title, summary, content, images) => {
 
 // TODO: Gör så att det finns en id parameter som väljer en specifik index i projectList att skicka till client
 // Return a specific project response ( DeBUG MODE RN )
-const GetProject = (response) => {
-	//output = projectList["projects"][0];
-	console.log(projectList.projects[0]);
+const GetProject = (response, id) => {
 	
-	// convert into JSON string so it can be sent to client
-	let data = JSON.stringify(projectList.projects[0]);
+	let data;
 
+	// Iterate over available projects and when correct one found, print out the entire object
+	for(let x = 0; x < projectList.projects.length; x++){
+		if(projectList.projects[x].id == id){
+			console.log(projectList.projects[x]);
+			// convert into JSON string so it can be sent to client
+			data = JSON.stringify(projectList.projects[x]);
+		}
+	}
+	
+	// Send to client
 	response.write(data);
 	response.end();
 }
