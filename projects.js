@@ -27,6 +27,10 @@ const GetProjectList = (response) => {
 			console.log("read error"); // DEBUG
 		}
 
+		// Keep the projectList variable populated so I can use it by parsing the JSON data into readable format
+		projectList = JSON.parse(data);
+		console.log(projectList);
+
 		// Send to client
 		response.write(data);
 		response.end();
@@ -38,7 +42,7 @@ const GenerateProjectList = (response) => {
 	// Add new project to projectList
 	AddProject(1, "Jetpack Doggo 1", "C#, Unity", "Text about the game", ["jp1.jpg", "jp2.jpg", "jp3.jpg", "jp4.jpg"]);
 	
-	// convert JSON object to string
+	// convert into JSON
 	let data = JSON.stringify(projectList);
 
 	console.log(data); // DEBUG
