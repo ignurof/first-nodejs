@@ -40,6 +40,9 @@ const server = http.createServer((request, response) => {
     // Reference request host (domain name of endpoint)
     let ref = request.headers.host;
 
+    // declare the query param
+    let projectid;
+
     // Endpoint security measure - PUBLIC API
     if(ref == "api.ignurof.xyz"){
         // Before client access site their browser checks for header options
@@ -66,10 +69,19 @@ const server = http.createServer((request, response) => {
             if(url == "/projects"){
                 return projects.ProjectsPage(response);
             }
-            if(url == "/project"){ // http://api.ignurof.xyz?projectID=1
+            
+            /*
+            if(url == "/project"){ // http://api.ignurof.xyz/project/1
+                console.log(projectid);
                 // pass the specific projectID to return correct project
                 return projects.GetProject(response, 1);
             }
+            */
+           // GetProject route
+           switch(url){
+               case "/project/1": return projects.GetProject(response, 1);
+               case "/project/2": return projects.GetProject(response, 2);
+           }
 
             // we should not end up here
             return pages.DefaultPage(response);
