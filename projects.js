@@ -20,10 +20,9 @@ const AddProject = (id, title, summary, content, images) => {
 
 // Return a specific project response ( DeBUG MODE RN )
 const GetProject = (response) => {
-	let output;
 	// TODO: HUR FAN SKAPAR JAG RÄTT REFERENS HÄR DÅ? JSON ÄR FUCKED UP, FUCKING .parse .stringify vilken gäller ens?
 	//output = projectList["projects"][0];
-	console.log(output);
+	console.log(projectList);
 
 	response.write("Hej");
 	response.end();
@@ -48,6 +47,7 @@ const FillProjectList = () => {
 const GenerateProjectFile = () => {
 	// Add new project to projectList
 	AddProject(1, "Jetpack Doggo 1", "C#, Unity", "Text about the game", ["jp1.jpg", "jp2.jpg", "jp3.jpg", "jp4.jpg"]);
+	AddProject(2, "Jetpack Doggo 2", "C#, Unity", "Text about the game", ["jp1.jpg", "jp2.jpg", "jp3.jpg", "jp4.jpg"]);
 	
 	// convert into JSON
 	let data = JSON.stringify(projectList);
@@ -66,7 +66,9 @@ const GenerateProjectFile = () => {
 
 // Respond with appropriate projects method, but the gist of it is respond with projectList.json
 const ProjectsPage = (response) => {
-	response.write(projectList);
+	//let output = JSON.stringify(projectList.projects[0]);
+	console.log("Made it here!!");
+	response.write("Test Projects Page");
 	response.end();
 }
 

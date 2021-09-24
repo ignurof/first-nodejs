@@ -35,10 +35,6 @@ const server = http.createServer((request, response) => {
         "Content-Type": "text/json"
     };
 
-    // Server startup validation
-    // Make sure required files exist, if not, create them
-    ValidateProjects();
-
     // Reference url
     let url = request.url;
     // Reference request host (domain name of endpoint)
@@ -69,6 +65,9 @@ const server = http.createServer((request, response) => {
             }
             if(url == "/projects"){
                 return projects.ProjectsPage(response);
+            }
+            if(url == "/project"){
+                return projects.GetProject(response);
             }
 
             // we should not end up here
@@ -117,12 +116,16 @@ const server = http.createServer((request, response) => {
     response.end(`Endpoint is not available right now.`);
 });
 
-// Callback function for what is happening on server.listen
+// Callback function for what is happening on server.listen (Startup?)
 server.listen(port, hostname, (error) => {
     if(error) return console.log(error);
 
     // All console.log prints out on the server console
     console.log(`Server running at http://${hostname}:${port}/`);
+
+    // Server startup validation
+    // Make sure required files exist, if not, create them
+    ValidateProjects();
 });
 
 
