@@ -23,8 +23,11 @@ const GetProject = (response) => {
 	// TODO: HUR FAN SKAPAR JAG RÄTT REFERENS HÄR DÅ? JSON ÄR FUCKED UP, FUCKING .parse .stringify vilken gäller ens?
 	//output = projectList["projects"][0];
 	console.log(projectList);
+	
+	// convert into JSON string so it can be sent to client
+	let data = JSON.stringify(projectList);
 
-	response.write("Hej");
+	response.write(data);
 	response.end();
 }
 
@@ -37,7 +40,7 @@ const FillProjectList = () => {
 			console.log("read error"); // DEBUG
 		}
 
-		// Keep the projectList variable populated so I can use it by parsing the JSON data into readable format
+		// Parse the JSON string into a JSON Object and pass it back into the projectList object
 		projectList = JSON.parse(data);
 		console.log(projectList);
 	});
