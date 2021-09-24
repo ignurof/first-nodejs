@@ -18,14 +18,14 @@ const AddProject = (id, title, summary, content, images) => {
 	projectList["projects"].push(project);
 }
 
+// TODO: Gör så att det finns en id parameter som väljer en specifik index i projectList att skicka till client
 // Return a specific project response ( DeBUG MODE RN )
 const GetProject = (response) => {
-	// TODO: HUR FAN SKAPAR JAG RÄTT REFERENS HÄR DÅ? JSON ÄR FUCKED UP, FUCKING .parse .stringify vilken gäller ens?
 	//output = projectList["projects"][0];
-	console.log(projectList);
+	console.log(projectList.projects[0]);
 	
 	// convert into JSON string so it can be sent to client
-	let data = JSON.stringify(projectList);
+	let data = JSON.stringify(projectList.projects[0]);
 
 	response.write(data);
 	response.end();
