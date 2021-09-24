@@ -18,8 +18,7 @@ const AddProject = (id, title, summary, content, images) => {
 	projectList["projects"].push(project);
 }
 
-// TODO: Gör så att det finns en id parameter som väljer en specifik index i projectList att skicka till client
-// Return a specific project response ( DeBUG MODE RN )
+// Return a specific project response
 const GetProject = (response, id) => {
 	
 	let data;
