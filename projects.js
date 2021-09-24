@@ -18,6 +18,17 @@ const AddProject = (id, title, summary, content, images) => {
 	projectList["projects"].push(project);
 }
 
+// Return a specific project response
+const GetProject = (response, id) => {
+	for(let x = 0; x < projectList["projects"].length; x++){
+		if(projectList["projects"][x].id == id){
+			// Send to client
+			response.write(projectList["projects"][x]);
+			response.end();
+		}
+	}
+}
+
 // Respond with the projectList
 const GetProjectList = (response) => {
 	// Open filestream and try to read the file
@@ -81,4 +92,7 @@ const ProjectsPage = (response) => {
 
 
 // Exports the method so it can be imported(require) in another file
-module.exports = ProjectsPage;
+module.exports = {
+	ProjectsPage,
+	GetProject
+};

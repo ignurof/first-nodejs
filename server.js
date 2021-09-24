@@ -2,6 +2,8 @@ const http = require("http");
 
 // Get all module.exports from pages.js
 const pages = require("./pages.js");
+// Consolidate projects related in projects
+const projects = require("./projects.js");
 
 // IP:PORT
 const hostname = "localhost";
@@ -61,7 +63,10 @@ const server = http.createServer((request, response) => {
                 return pages.AboutPage(response);
             }
             if(url == "/projects"){
-                return pages.ProjectsPage(response);
+                return projects.ProjectsPage(response);
+            }
+            if(url =="/project"){
+                return projects.GetProject(response, 1);
             }
 
             // we should not end up here
