@@ -76,9 +76,10 @@ const GenerateProjectFile = () => {
 
 // Respond with appropriate projects method, but the gist of it is respond with projectList.json
 const ProjectsPage = (response) => {
-	//let output = JSON.stringify(projectList.projects[0]);
-	console.log("Made it here!!");
-	response.write("Test Projects Page");
+	// Take projectList object and stringify so it can be sent to client
+	let data = JSON.stringify(projectList);
+	// Send to client
+	response.write(data);
 	response.end();
 }
 
