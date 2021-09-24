@@ -4,6 +4,7 @@ const http = require("http");
 const pages = require("./pages.js");
 // Consolidate projects related in projects
 const projects = require("./projects.js");
+const ValidateProjects = require("./startup.js");
 
 // IP:PORT
 const hostname = "localhost";
@@ -33,6 +34,10 @@ const server = http.createServer((request, response) => {
         "Access-Control-Max-Age": 2592000, 
         "Content-Type": "text/json"
     };
+
+    // Server startup validation
+    // Make sure required files exist, if not, create them
+    ValidateProjects();
 
     // Reference url
     let url = request.url;
@@ -64,9 +69,6 @@ const server = http.createServer((request, response) => {
             }
             if(url == "/projects"){
                 return projects.ProjectsPage(response);
-            }
-            if(url =="/project"){
-                return projects.GetProject(response, 1);
             }
 
             // we should not end up here

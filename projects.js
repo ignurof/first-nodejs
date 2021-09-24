@@ -18,11 +18,11 @@ const AddProject = (id, title, summary, content, images) => {
 	projectList["projects"].push(project);
 }
 
-// Return a specific project response
-const GetProject = (response, id) => {
+// Return a specific project response ( DeBUG MODE RN )
+const GetProject = (response) => {
 	let output;
 	// TODO: HUR FAN SKAPAR JAG RÄTT REFERENS HÄR DÅ? JSON ÄR FUCKED UP, FUCKING .parse .stringify vilken gäller ens?
-	output = projectList[0];
+	//output = projectList["projects"][0];
 	console.log(output);
 
 	response.write("Hej");
@@ -30,7 +30,7 @@ const GetProject = (response, id) => {
 }
 
 // Respond with the projectList
-const GetProjectList = (response) => {
+const FillProjectList = () => {
 	// Open filestream and try to read the file
 	fs.readFile("projectList.json", (error, data) => {
 		// 404 - If file does not exist, or other error
@@ -41,15 +41,11 @@ const GetProjectList = (response) => {
 		// Keep the projectList variable populated so I can use it by parsing the JSON data into readable format
 		projectList = JSON.parse(data);
 		console.log(projectList);
-
-		// Send to client
-		response.write(data);
-		response.end();
 	});
 }
 
 // If the projectList didnt exist, create it and respond with it
-const GenerateProjectList = (response) => {
+const GenerateProjectFile = () => {
 	// Add new project to projectList
 	AddProject(1, "Jetpack Doggo 1", "C#, Unity", "Text about the game", ["jp1.jpg", "jp2.jpg", "jp3.jpg", "jp4.jpg"]);
 	
@@ -66,33 +62,19 @@ const GenerateProjectList = (response) => {
 
 		console.log("projectList.json created");
 	});
-
-	// Send to client
-	response.write(data);
-	response.end();
 }
 
 // Respond with appropriate projects method, but the gist of it is respond with projectList.json
 const ProjectsPage = (response) => {
-	// Check if projectList.json exist
-	fs.stat("projectList.json", (error, stat) => {
-		if(error == null) {
-			// If the file exists
-			console.log('File exists');
-			return GetProjectList(response);
-		} else if(error.code === 'ENOENT') {
-			// If the file does not exist
-			console.log("File does not exist");
-			return GenerateProjectList(response);
-		} else {
-			throw error;
-		}
-	});
+	response.write(projectList);
+	response.end();
 }
 
 
 // Exports the method so it can be imported(require) in another file
 module.exports = {
-	ProjectsPage,
-	GetProject
+	GetProject,
+	FillProjectList,
+	GenerateProjectFile,
+	ProjectsPage
 };
