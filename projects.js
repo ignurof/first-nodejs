@@ -20,13 +20,13 @@ const AddProject = (id, title, summary, content, images) => {
 
 // Return a specific project response
 const GetProject = (response, id) => {
-	for(let x = 0; x < projectList["projects"].length; x++){
-		if(projectList["projects"][x].id == id){
-			// Send to client
-			response.write(projectList["projects"][x]);
-			response.end();
-		}
-	}
+	let output;
+	// TODO: HUR FAN SKAPAR JAG RÄTT REFERENS HÄR DÅ? JSON ÄR FUCKED UP, FUCKING .parse .stringify vilken gäller ens?
+	output = projectList[0];
+	console.log(output);
+
+	response.write("Hej");
+	response.end();
 }
 
 // Respond with the projectList
