@@ -1,3 +1,4 @@
+const fs = require("fs");
 const projects = require("./projects.js");
 
 // Everything related to startup file validation and other related topics
