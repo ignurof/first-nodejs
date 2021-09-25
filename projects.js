@@ -8,6 +8,7 @@ let projectList = {
 
 // Adds a new project to the list.
 const AddProject = (id, title, summary, content, images) => {
+	// JSON Object, or rather just JSON
 	let project = {
 		"id": id,
 		"title": title,
@@ -43,7 +44,7 @@ const GetProject = (response, id) => {
 }
 
 // Reads the JSON-file and fill the projectList variable
-// Happens on server startup and whenever
+// Happens on server startup and whenever required
 const FillProjectList = () => {
 	// Open filestream and try to read the file
 	fs.readFile("projectList.json", (error, data) => {
@@ -63,14 +64,13 @@ const CreateProjectListJSON = () => {
 	// convert into JSON
 	let data = JSON.stringify(projectList);
 
-	console.log(data); // DEBUG
-
 	// Create new file or overwrite file
 	fs.writeFile("projectList.json", data, (error) => {
 		if(error){
 			console.log("write error"); // DEBUG
 		}
 
+		// Very useful server logging
 		console.log("projectList.json created");
 	});
 }
