@@ -19,7 +19,8 @@ const AddProject = (id, title, summary, content, images) => {
 	// Append to list
 	projectList["projects"].push(project);
 
-	// TODO: Append to file
+	// Append to file
+	CreateProjectListJSON();
 }
 
 // Return a specific project response
@@ -41,7 +42,8 @@ const GetProject = (response, id) => {
 	response.end();
 }
 
-// Respond with the projectList
+// Reads the JSON-file and fill the projectList variable
+// Happens on server startup and whenever
 const FillProjectList = () => {
 	// Open filestream and try to read the file
 	fs.readFile("projectList.json", (error, data) => {
@@ -56,18 +58,14 @@ const FillProjectList = () => {
 	});
 }
 
-// If the projectList didnt exist, create it and respond with it
-const GenerateProjectFile = () => {
-	// Add new project to projectList
-	AddProject(1, "Jetpack Doggo 1", "C#, Unity", "Text about the game", ["jp1.jpg", "jp2.jpg", "jp3.jpg", "jp4.jpg"]);
-	AddProject(2, "Jetpack Doggo 2", "C#, Unity", "Text about the game", ["jp1.jpg", "jp2.jpg", "jp3.jpg", "jp4.jpg"]);
-	
+// Create a new file or overwrite existing one with new contents of projectList variable
+const CreateProjectListJSON = () => {
 	// convert into JSON
 	let data = JSON.stringify(projectList);
 
 	console.log(data); // DEBUG
 
-	// Create new file
+	// Create new file or overwrite file
 	fs.writeFile("projectList.json", data, (error) => {
 		if(error){
 			console.log("write error"); // DEBUG
@@ -88,8 +86,8 @@ const ProjectsPage = (response) => {
 
 // Exports the method so it can be imported(require) in another file
 module.exports = {
+	AddProject,
 	GetProject,
 	FillProjectList,
-	GenerateProjectFile,
 	ProjectsPage
 };
