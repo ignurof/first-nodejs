@@ -6,6 +6,17 @@ let projectList = {
 	"projects": []
 };
 
+/*
+	TODO: Edit project by using projectid
+		  Delete project using id
+		  ____Projects functionality done here____
+		  Make about.txt generate on startup
+		  Edit about.txt
+		  ____Startup validation should be complete for now____
+		  Look into how to make my routes more dynamic
+		  Implement auth and encryption
+*/
+
 // Adds a new project to the list.
 const AddProject = (id, title, summary, content, images) => {
 	// JSON Object, or rather just JSON
