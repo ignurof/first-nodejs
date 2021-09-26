@@ -24,8 +24,8 @@ const DeleteProject = (id) => {
 	// Iterate over all projects until correct one is found
 	for(let x = 0; x < projectList.projects.length; x++){
 		if(id == projectList.projects[x].id){
-			// Set to null to remove values
-			projectList.projects[x] = null;
+			// Remove array values starting at index point, with howmany amount
+			projectList.projects.splice(x, 1);
 
 			// Regenerate file with updated projectList values
 			CreateProjectListJSON();
