@@ -7,8 +7,10 @@ let projectList = {
 };
 
 /*
-	TODO: Edit project by using projectid
+	TODO: 
 		  Delete project using id
+		  Generate dynamic getproject routes based on projectList.projects.length
+		  and update it whenever projectList is updated
 		  ____Projects functionality done here____
 		  Make about.txt generate on startup
 		  Edit about.txt
@@ -16,6 +18,35 @@ let projectList = {
 		  Look into how to make my routes more dynamic
 		  Implement auth and encryption
 */
+
+// Delete a project by id reference
+const DeleteProject = (id) => {
+	// Iterate over all projects until correct one is found
+	for(let x = 0; x < projectList.projects.length; x++){
+		if(id == projectList.projects[x].id){
+			// Set to null to remove values
+			projectList.projects[x] = null;
+			// Debug
+			console.log(projectList.projects[x]);
+			return;
+		}
+	}
+}
+
+// Update a current project by editing its values
+const EditProject = (id, title, summary, content, images) => {
+	// Iterate over all projects until correct one is found
+	for(let x = 0; x < projectList.projects.length; x++){
+		if(id == projectList.projects[x].id){
+			// Set new values according to params
+			projectList.projects[x].title = title;
+			projectList.projects[x].summary = summary;
+			projectList.projects[x].content = content;
+			projectList.projects[x].images = images;
+			return;
+		}
+	}
+}
 
 // Adds a new project to the list.
 const AddProject = (id, title, summary, content, images) => {
@@ -31,7 +62,7 @@ const AddProject = (id, title, summary, content, images) => {
 	// Append to list
 	projectList["projects"].push(project);
 
-	// Append to file
+	// Append to file by generating a new file with the updated projectList
 	CreateProjectListJSON();
 }
 
@@ -97,6 +128,8 @@ const ProjectsPage = (response) => {
 
 // Exports the method so it can be imported(require) in another file
 module.exports = {
+	DeleteProject,
+	EditProject,
 	AddProject,
 	GetProject,
 	FillProjectList,
