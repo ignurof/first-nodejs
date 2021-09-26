@@ -27,12 +27,21 @@ const DeleteProject = (id) => {
 			// Remove array values starting at index point, with howmany amount
 			projectList.projects.splice(x, 1);
 
+			// Update ID to fit the position in array
+			UpdateProjectID();
+
 			// Regenerate file with updated projectList values
 			CreateProjectListJSON();
 
 			// Return out so it doesnt keep iterating over the list incase of long length
 			return;
 		}
+	}
+}
+
+const UpdateProjectID = () => {
+	for(let x = 0; x < projectList.projects.length; x++){
+		projectList.projects[x].id = x + 1;
 	}
 }
 
@@ -103,8 +112,11 @@ const FillProjectList = () => {
 			console.log("read error"); // DEBUG
 		}
 
-		// Parse the JSON string into a JSON Object and pass it back into the projectList object
-		projectList = JSON.parse(data);
+		// parse the JSON string back into JSON object
+		let parsedJSON = JSON.parse(data);
+
+		// Assign the new parsedJSON values to the projectList
+		projectList = parsedJSON
 		console.log(projectList);
 	});
 }
