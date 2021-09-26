@@ -117,7 +117,7 @@ const server = http.createServer((request, response) => {
 
             // API Routing http://private.ignurof.xyz?projectid=1&title=hej
             // TODO: GÖR SÅ ATT DENNA KOLLAR SPECIFIC REQUESTURL, TA REDA PÅ HUR projID KAN VARA DYNAMISK
-            if(requestURL.startsWith("/deleteproject")){
+            if(requestURL.startsWith("/deleteproject?projectid")){
                 console.log("delete project page");
             }
 
