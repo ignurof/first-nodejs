@@ -8,7 +8,7 @@ let projectList = {
 
 /*
 	TODO: 
-		  Delete project using id
+		  
 		  Generate dynamic getproject routes based on projectList.projects.length
 		  and update it whenever projectList is updated
 		  ____Projects functionality done here____
@@ -26,8 +26,11 @@ const DeleteProject = (id) => {
 		if(id == projectList.projects[x].id){
 			// Set to null to remove values
 			projectList.projects[x] = null;
-			// Debug
-			console.log(projectList.projects[x]);
+
+			// Regenerate file with updated projectList values
+			CreateProjectListJSON();
+
+			// Return out so it doesnt keep iterating over the list incase of long length
 			return;
 		}
 	}
