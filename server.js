@@ -110,18 +110,31 @@ const server = http.createServer((request, response) => {
             let urlParams = currentURL.searchParams;
             // Get specific params
             let projID = urlParams.get("projectid");
+            let projTITLE = urlParams.get("title");
+            let projSUMMARY = urlParams.get("summary");
+            let projCONTENT = urlParams.get("content");
+            let projIMAGEA = urlParams.get("imagea");
+            let projIMAGEB = urlParams.get("imageb");
+            let projIMAGEC = urlParams.get("imagec");
+            let projIMAGED = urlParams.get("imaged");
             // Debug
             console.log(projID);
             console.log(requestURL);
             console.log("here");
 
-            // API Routing http://private.ignurof.xyz?projectid=1&title=hej
-            // TODO: GÖR SÅ ATT DENNA KOLLAR SPECIFIC REQUESTURL, TA REDA PÅ HUR projID KAN VARA DYNAMISK
+            // TODO: Find a more reasonable way of getting values for creation of projects
+            // API Routing http://private.ignurof.xyz?projectid=1&title=hej&summary=text&content=text&imagea=path&imageb=path&imagec=path&imaged=path
             if(requestURL.startsWith("/deleteproject?projectid")){
                 projects.DeleteProject(projID);
                 response.write("Deleted project with id: " + projID);
                 response.end();
                 return; // Need to early return here so we dont end up on defaultpage/endpoint error page
+            }
+            if(requestURL.startsWith("/addproject?title")){
+                projects.AddProject(projTITLE, projSUMMARY, projCONTENT, projIMAGEA, projIMAGEB, projIMAGEC, projIMAGED);
+                response.write("Created project with title:" + projTITLE);
+                response.end();
+                return;
             }
 
             return pages.DefaultPage(response);

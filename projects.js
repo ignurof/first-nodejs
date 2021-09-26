@@ -7,7 +7,7 @@ let projectList = {
 };
 
 /*
-	TODO: 
+	TODO: AddProject route
 		  
 		  Generate dynamic getproject routes based on projectList.projects.length
 		  and update it whenever projectList is updated
@@ -52,7 +52,12 @@ const EditProject = (id, title, summary, content, images) => {
 }
 
 // Adds a new project to the list.
-const AddProject = (id, title, summary, content, images) => {
+const AddProject = (title, summary, content, images) => {
+	// Get the current projects length, meaning the index amount
+	let x = projectList.projects.length;
+	// Add one to compensate for index starting at 0
+	let id = x + 1;
+
 	// JSON Object, or rather just JSON
 	let project = {
 		"id": id,
