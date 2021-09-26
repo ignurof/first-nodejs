@@ -102,14 +102,18 @@ const server = http.createServer((request, response) => {
         if (["GET", "POST"].indexOf(request.method) > -1) {
             response.writeHead(200, privateHeaders);
 
-            // Create a new URL object that takes a url string
-            let currentURL = new URL(requestURL);
+            // Create a new URL object that takes a full url string
+            let currentURL = new URL("http://" + ref + requestURL);
+            // Debug
+            console.log(currentURL.href);
             // Search for the query params
             let urlParams = currentURL.searchParams;
             // Get specific params
             let projID = urlParams.get("projectid");
             // Debug
             console.log(projID);
+            console.log(requestURL);
+            console.log("here");
 
             // API Routing http://private.ignurof.xyz?name=n1&name=n2
             // TODO: Add admin routing stuff
