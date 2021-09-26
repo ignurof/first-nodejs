@@ -1,4 +1,5 @@
 const http = require("http");
+const url = require('url');
 
 // Get all module.exports from pages.js
 const pages = require("./pages.js");
@@ -36,7 +37,7 @@ const server = http.createServer((request, response) => {
     };
 
     // Reference url
-    let url = request.url;
+    let requestURL = request.url;
     // Reference request host (domain name of endpoint)
     let ref = request.headers.host;
 
@@ -60,14 +61,14 @@ const server = http.createServer((request, response) => {
             response.writeHead(200, publicHeaders);
 
             // API Routing http://api.ignurof.xyz?name=n1&name=n2
-            if(url == "/about"){
+            if(requestURL == "/about"){
                 return pages.AboutPage(response);
             }
-            if(url == "/projects"){
+            if(requestURL == "/projects"){
                 return projects.ProjectsPage(response);
             }
             // GetProject route
-            switch(url){
+            switch(requestURL){
                 case "/project/1": return projects.GetProject(response, 1);
                 case "/project/2": return projects.GetProject(response, 2);
             }
@@ -101,8 +102,20 @@ const server = http.createServer((request, response) => {
         if (["GET", "POST"].indexOf(request.method) > -1) {
             response.writeHead(200, privateHeaders);
 
+            // Create a new URL object that takes a url string
+            let currentURL = new URL(requestURL);
+            // Search for the query params
+            let urlParams = currentURL.searchParams;
+            // Get specific params
+            let projID = urlParams.get("projectid");
+            // Debug
+            console.log(projID);
+
             // API Routing http://private.ignurof.xyz?name=n1&name=n2
             // TODO: Add admin routing stuff
+            if(requestURL == "/deleteproject"){
+                console.log("delete project page");
+            }
 
             return pages.DefaultPage(response);
         } else {
