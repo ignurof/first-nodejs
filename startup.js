@@ -13,7 +13,7 @@ const ValidateProjects = () => {
 			// If the file does not exist
 			console.log("File does not exist");
 			// Adds a new project to projectList object and then runs CreateProjectListJSON() to create or overwrite the file
-			projects.AddProject(1, "Jetpack Doggo 1", "C#, Unity", "Text about the game", ["jp1.jpg", "jp2.jpg", "jp3.jpg", "jp4.jpg"]);
+			projects.AddProject("Jetpack Doggo 1", "C#, Unity", "Text about the game", ["jp1.jpg", "jp2.jpg", "jp3.jpg", "jp4.jpg"]);
 		} else {
 			throw error;
 		}
