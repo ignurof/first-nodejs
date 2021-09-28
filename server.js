@@ -66,7 +66,7 @@ const server = http.createServer((request, response) => {
             */  
             let urlStringArray = requestURL.split("/");
 
-            // TODO: testa så detta fungerar som routing 
+            // Check the url params
             switch(urlStringArray[1]){
                 case "about": return pages.AboutPage(response);
                 case "projects": return projects.ProjectsPage(response);
@@ -111,7 +111,7 @@ const server = http.createServer((request, response) => {
     // When admin logs in with regular password on frontend
     // Check the password against the encrypted pw with private key
     // If successfull, authorize the request here on server, otherwise deny and show deny message
-    if(ref == "private.ignurof.xyz"){
+    if(ref == "localhost:3111"){
         // Preflight
         if(request.method == "OPTIONS"){
             response.writeHead(204, privateHeaders);
@@ -124,42 +124,28 @@ const server = http.createServer((request, response) => {
         if (["GET", "POST"].indexOf(request.method) > -1) {
             response.writeHead(200, privateHeaders);
 
-            // Create a new URL object that takes a full url string
-            let currentURL = new URL("http://" + ref + requestURL);
-            // Debug
-            console.log(currentURL.href);
-            // Search for the query params
-            let urlParams = currentURL.searchParams;
-            // Get specific params
-            let projID = urlParams.get("projectid");
-            let projTITLE = urlParams.get("title");
-            let projSUMMARY = urlParams.get("summary");
-            let projCONTENT = urlParams.get("content");
-            let projIMAGEA = urlParams.get("imagea");
-            let projIMAGEB = urlParams.get("imageb");
-            let projIMAGEC = urlParams.get("imagec");
-            let projIMAGED = urlParams.get("imaged");
-            // Debug
-            console.log(projID);
-            console.log(requestURL);
-            console.log("here");
+            /*  
+                Reference the entire url as an array, split up by the character
+                first index is empty because nothing comes before the first / in the href
+            */  
+            let urlStringArray = requestURL.split("/");
 
-            // TODO: Find a more reasonable way of getting values for creation of projects
-            // API Routing http://private.ignurof.xyz?projectid=1&title=hej&summary=text&content=text&imagea=path&imageb=path&imagec=path&imaged=path
-            if(requestURL.startsWith("/deleteproject?projectid")){
-                projects.DeleteProject(projID);
-                response.write("Deleted project with id: " + projID);
-                response.end();
-                return; // Need to early return here so we dont end up on defaultpage/endpoint error page
-            }
-            if(requestURL.startsWith("/addproject?title")){
-                projects.AddProject(projTITLE, projSUMMARY, projCONTENT, projIMAGEA, projIMAGEB, projIMAGEC, projIMAGED);
-                response.write("Created project with title:" + projTITLE);
-                response.end();
-                return;
-            }
-
-            return pages.DefaultPage(response);
+            // Check the url params
+            switch(urlStringArray[1]){
+                case "project":
+                    // /project/NUMBER/
+                    switch(urlStringArray[2]){
+                        case 0: throw "Error!"; break;
+                        // Take the number param and get project with that id
+                        case urlStringArray[2]: return projects.GetProject(urlStringArray[2]);
+                            
+                        // Should not end up here
+                        default: return pages.DefaultPage(response);
+                    }
+                    
+                // Should not end up here either
+                default: return pages.DefaultPage(response);
+            } // ROUTING END
         } else {
             response.writeHead(405, privateHeaders);
             response.end(`${request.method} is not allowed for the request.`);
