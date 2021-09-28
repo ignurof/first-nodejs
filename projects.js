@@ -19,7 +19,7 @@ let projectList = {
 */
 
 // Delete a project by id reference
-const DeleteProject = (response, id) => {
+const DeleteProject = (id) => {
 	// Iterate over all projects until correct one is found
 	for(let x = 0; x < projectList.projects.length; x++){
 		if(id == projectList.projects[x].id){
@@ -31,10 +31,6 @@ const DeleteProject = (response, id) => {
 
 			// Regenerate file with updated projectList values
 			CreateProjectListJSON();
-
-			// Send to client
-		response.write("Deleted project");
-		response.end();
 
 			// Return out so it doesnt keep iterating over the list incase of long length
 			return;
@@ -51,7 +47,7 @@ const UpdateProjectID = () => {
 }
 
 // Update a current project by editing its values
-const EditProject = (response, id, title, summary, content, images) => {
+const EditProject = (id, title, summary, content, images) => {
 	// Iterate over all projects until correct one is found
 	for(let x = 0; x < projectList.projects.length; x++){
 		if(id == projectList.projects[x].id){
@@ -61,16 +57,13 @@ const EditProject = (response, id, title, summary, content, images) => {
 			projectList.projects[x].content = content;
 			projectList.projects[x].images = images;
 
-			// Send to client
-			response.write("Edited project");
-			response.end();
 			return; // Early return so it doesnt keep looping
 		}
 	}
 }
 
 // Adds a new project to the list.
-const AddProject = (response, title, summary, content, images) => {
+const AddProject = (title, summary, content, images) => {
 	// Get the current projects length, meaning the index amount
 	let x = projectList.projects.length;
 	// Add one to compensate for index starting at 0
@@ -90,14 +83,10 @@ const AddProject = (response, title, summary, content, images) => {
 
 	// Append to file by generating a new file with the updated projectList
 	CreateProjectListJSON();
-
-	// Send to client
-	response.write("Created project");
-	response.end();
 }
 
 // Return a specific project response
-const GetProject = (response, id) => {
+const GetProject = (id) => {
 	// Declare variable to give back to client later
 	let data;
 
@@ -115,8 +104,6 @@ const GetProject = (response, id) => {
 		}
 	}
 	console.log("Error GetProject()");
-	response.write("Error - Project not found");
-	response.end();
 }
 
 // Reads the JSON-file and fill the projectList variable

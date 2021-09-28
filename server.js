@@ -123,23 +123,36 @@ const server = http.createServer((request, response) => {
                 case "project":
                     switch(urlStringArray[2]){
                         // /project/add/title/summary/content/imagea/imageb/imagec/imaged
-                        case "add": return projects.AddProject(
-                            response, // for returning something back to frontend
-                            urlStringArray[3], // title
-                            urlStringArray[4], // summary
-                            urlStringArray[5], // content
-                            [urlStringArray[6], urlStringArray[7], urlStringArray[8], urlStringArray[9]] // images
-                        );
+                        case "add": 
+                            projects.AddProject(
+                                urlStringArray[3], // title
+                                urlStringArray[4], // summary
+                                urlStringArray[5], // content
+                                [urlStringArray[6], urlStringArray[7], urlStringArray[8], urlStringArray[9]] // images
+                            );
+
+                            response.write("Created project");
+                            response.end();
+                            return;
                         // /project/edit/id/title/summary/content/imagea/imageb/imagec/imaged
-                        case "edit": return projects.EditProject(
-                            response, // for returning something back to frontend
-                            urlStringArray[3], // id
-                            urlStringArray[4], // title
-                            urlStringArray[5], // summary
-                            urlStringArray[6], // content
-                            [urlStringArray[7], urlStringArray[8], urlStringArray[9], urlStringArray[10]] // images
-                        );
-                        case "delete": return projects.DeleteProject(response, urlStringArray[3]);
+                        case "edit": 
+                            projects.EditProject(
+                                urlStringArray[3], // id
+                                urlStringArray[4], // title
+                                urlStringArray[5], // summary
+                                urlStringArray[6], // content
+                                [urlStringArray[7], urlStringArray[8], urlStringArray[9], urlStringArray[10]] // images
+                            );
+
+                            response.write("Edited project");
+                            response.end();
+                            return;
+                        case "delete": 
+                            projects.DeleteProject(urlStringArray[3]);
+
+                            response.write("Deleted project");
+                            response.end();
+                            return;
                             
                         // Should not end up here
                         default: return pages.DefaultPage(response);
