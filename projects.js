@@ -7,10 +7,9 @@ let projectList = {
 };
 
 /*
-	TODO: AddProject route
+	TODO: GetProject() /project/var/ route needs dynamic route paths based on parameter var
 		  
-		  Generate dynamic getproject routes based on projectList.projects.length
-		  and update it whenever projectList is updated
+		  
 		  ____Projects functionality done here____
 		  Make about.txt generate on startup
 		  Edit about.txt
@@ -39,8 +38,10 @@ const DeleteProject = (id) => {
 	}
 }
 
+// Updates the projectList projectid to better match the array index
 const UpdateProjectID = () => {
 	for(let x = 0; x < projectList.projects.length; x++){
+		// Take the current index value and add one to have appropriate projectid
 		projectList.projects[x].id = x + 1;
 	}
 }

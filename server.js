@@ -60,21 +60,42 @@ const server = http.createServer((request, response) => {
             // OK/SUCCESS response to client here
             response.writeHead(200, publicHeaders);
 
-            // API Routing http://api.ignurof.xyz?name=n1&name=n2
-            if(requestURL == "/about"){
-                return pages.AboutPage(response);
-            }
-            if(requestURL == "/projects"){
-                return projects.ProjectsPage(response);
-            }
-            // GetProject route
-            switch(requestURL){
-                case "/project/1": return projects.GetProject(response, 1);
-                case "/project/2": return projects.GetProject(response, 2);
-            }
+            /*  
+                Reference the entire url as an array, split up by the character
+                first index is empty because nothing comes before the first / in the href
+            */  
+            let urlStringArray = requestURL.split("/");
 
-            // we should not end up here
-            return pages.DefaultPage(response);
+            switch(urlStringArray[1]){
+                case "about": return pages.AboutPage(response);
+                case "projects": return projects.ProjectsPage(response);
+                case "project":
+                    // Check further params if user wants to add, edit or delete ( SHOULD BE IN PRIVATE ENDPOINT )
+                    switch(urlStringArray[2]){
+                        // /project/add/title/summary/content/imagea/imageb/imagec/imaged
+                        case "add": return projects.AddProject(
+                            urlStringArray[3], // title
+                            urlStringArray[4], // summary
+                            urlStringArray[5], // content
+                            [urlStringArray[6], urlStringArray[7], urlStringArray[8], urlStringArray[9]] // images
+                        );
+                        // /project/edit/id/title/summary/content/imagea/imageb/imagec/imaged
+                        case "edit": return projects.EditProject(
+                            urlStringArray[3], // id
+                            urlStringArray[4], // title
+                            urlStringArray[5], // summary
+                            urlStringArray[6], // content
+                            [urlStringArray[7], urlStringArray[8], urlStringArray[9], urlStringArray[10]] // images
+                        );
+                        case "delete": return projects.DeleteProject(urlStringArray[3]);
+                        
+                        // Should not end up here
+                        default: return pages.DefaultPage(response);
+                    }
+                
+                // Should not end up here either
+                default: return pages.DefaultPage(response);
+            } // ROUTING END
         } else {
             // We end up here if["GET", "POST"].indexOf(request.method)=false meaning there was not a proper request method header
             response.writeHead(405, publicHeaders);
