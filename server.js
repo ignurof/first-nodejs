@@ -124,6 +124,7 @@ const server = http.createServer((request, response) => {
                     switch(urlStringArray[2]){
                         // /project/add/title/summary/content/imagea/imageb/imagec/imaged
                         case "add": return projects.AddProject(
+                            response, // for returning something back to frontend
                             urlStringArray[3], // title
                             urlStringArray[4], // summary
                             urlStringArray[5], // content
@@ -131,13 +132,14 @@ const server = http.createServer((request, response) => {
                         );
                         // /project/edit/id/title/summary/content/imagea/imageb/imagec/imaged
                         case "edit": return projects.EditProject(
+                            response, // for returning something back to frontend
                             urlStringArray[3], // id
                             urlStringArray[4], // title
                             urlStringArray[5], // summary
                             urlStringArray[6], // content
                             [urlStringArray[7], urlStringArray[8], urlStringArray[9], urlStringArray[10]] // images
                         );
-                        case "delete": return projects.DeleteProject(urlStringArray[3]);
+                        case "delete": return projects.DeleteProject(response, urlStringArray[3]);
                             
                         // Should not end up here
                         default: return pages.DefaultPage(response);
