@@ -97,10 +97,7 @@ const GetProject = (id) => {
 			// convert into JSON string so it can be sent to client
 			data = JSON.stringify(projectList.projects[x]);
 
-			// Send to client
-			response.write(data);
-			response.end();
-			return; // Early return so we dont end up at the end of the method
+			return data; // Early return so we dont end up at the end of the method
 		}
 	}
 	console.log("Error GetProject()");

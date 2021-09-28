@@ -73,7 +73,12 @@ const server = http.createServer((request, response) => {
                 case "project":
                     switch(urlStringArray[2]){
                         // Take the number param and get project with that id, error handling inside GetProject
-                        case urlStringArray[2]: return projects.GetProject(response, urlStringArray[2]);
+                        case urlStringArray[2]: 
+                            let projectData = projects.GetProject(urlStringArray[2]);
+
+                            response.write(projectData);
+                            response.end();
+                            return;
                         
                         // Should not end up here
                         default: return pages.DefaultPage(response);
