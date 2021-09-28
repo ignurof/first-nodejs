@@ -42,7 +42,7 @@ const server = http.createServer((request, response) => {
     let ref = request.headers.host;
 
     // Endpoint security measure - PUBLIC API
-    if(ref == "localhost:3111"){
+    if(ref == "api.ignurof.xyz"){
         // Before client access site their browser checks for header options
         // aka preflight request
         if (request.method === "OPTIONS") {
@@ -71,9 +71,8 @@ const server = http.createServer((request, response) => {
                 case "about": return pages.AboutPage(response);
                 case "projects": return projects.ProjectsPage(response);
                 case "project":
-                    // Check further params if user wants to add, edit or delete ( SHOULD BE IN PRIVATE ENDPOINT )
                     switch(urlStringArray[2]){
-                        // Take the number param and get project with that id
+                        // Take the number param and get project with that id, error handling inside GetProject
                         case urlStringArray[2]: return projects.GetProject(response, urlStringArray[2]);
                         
                         // Should not end up here
