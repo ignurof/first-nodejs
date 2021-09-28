@@ -73,22 +73,8 @@ const server = http.createServer((request, response) => {
                 case "project":
                     // Check further params if user wants to add, edit or delete ( SHOULD BE IN PRIVATE ENDPOINT )
                     switch(urlStringArray[2]){
-                        // /project/add/title/summary/content/imagea/imageb/imagec/imaged
-                        case "add": return projects.AddProject(
-                            urlStringArray[3], // title
-                            urlStringArray[4], // summary
-                            urlStringArray[5], // content
-                            [urlStringArray[6], urlStringArray[7], urlStringArray[8], urlStringArray[9]] // images
-                        );
-                        // /project/edit/id/title/summary/content/imagea/imageb/imagec/imaged
-                        case "edit": return projects.EditProject(
-                            urlStringArray[3], // id
-                            urlStringArray[4], // title
-                            urlStringArray[5], // summary
-                            urlStringArray[6], // content
-                            [urlStringArray[7], urlStringArray[8], urlStringArray[9], urlStringArray[10]] // images
-                        );
-                        case "delete": return projects.DeleteProject(urlStringArray[3]);
+                        // Take the number param and get project with that id
+                        case urlStringArray[2]: return projects.GetProject(response, urlStringArray[2]);
                         
                         // Should not end up here
                         default: return pages.DefaultPage(response);
@@ -111,7 +97,7 @@ const server = http.createServer((request, response) => {
     // When admin logs in with regular password on frontend
     // Check the password against the encrypted pw with private key
     // If successfull, authorize the request here on server, otherwise deny and show deny message
-    if(ref == "localhost:3111"){
+    if(ref == "private.ignurof.xyz"){
         // Preflight
         if(request.method == "OPTIONS"){
             response.writeHead(204, privateHeaders);
@@ -129,15 +115,30 @@ const server = http.createServer((request, response) => {
                 first index is empty because nothing comes before the first / in the href
             */  
             let urlStringArray = requestURL.split("/");
-
+            
+            // Debug
+            let x = urlStringArray[2];
+            console.log(x);
             // Check the url params
             switch(urlStringArray[1]){
                 case "project":
-                    // /project/NUMBER/
                     switch(urlStringArray[2]){
-                        case 0: throw "Error!"; break;
-                        // Take the number param and get project with that id
-                        case urlStringArray[2]: return projects.GetProject(urlStringArray[2]);
+                        // /project/add/title/summary/content/imagea/imageb/imagec/imaged
+                        case "add": return projects.AddProject(
+                            urlStringArray[3], // title
+                            urlStringArray[4], // summary
+                            urlStringArray[5], // content
+                            [urlStringArray[6], urlStringArray[7], urlStringArray[8], urlStringArray[9]] // images
+                        );
+                        // /project/edit/id/title/summary/content/imagea/imageb/imagec/imaged
+                        case "edit": return projects.EditProject(
+                            urlStringArray[3], // id
+                            urlStringArray[4], // title
+                            urlStringArray[5], // summary
+                            urlStringArray[6], // content
+                            [urlStringArray[7], urlStringArray[8], urlStringArray[9], urlStringArray[10]] // images
+                        );
+                        case "delete": return projects.DeleteProject(urlStringArray[3]);
                             
                         // Should not end up here
                         default: return pages.DefaultPage(response);
