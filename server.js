@@ -71,6 +71,9 @@ const server = http.createServer((request, response) => {
                 case "about": return pages.AboutPage(response);
                 case "projects": return projects.ProjectsPage(response);
                 case "project":
+                    // If no routing character is present or if not routing argument, aka /project or /project/
+                    if(urlStringArray[2] == null || urlStringArray[2] == "") return response.end("Error empty");
+                    // If argument is available, do this
                     switch(urlStringArray[2]){
                         // Take the number param and get project with that id, error handling inside GetProject
                         case urlStringArray[2]: 
