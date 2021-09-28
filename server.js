@@ -42,7 +42,7 @@ const server = http.createServer((request, response) => {
     let ref = request.headers.host;
 
     // Endpoint security measure - PUBLIC API
-    if(ref == "api.ignurof.xyz"){
+    if(ref == "localhost:3111"){
         // Before client access site their browser checks for header options
         // aka preflight request
         if (request.method === "OPTIONS") {
@@ -66,6 +66,7 @@ const server = http.createServer((request, response) => {
             */  
             let urlStringArray = requestURL.split("/");
 
+            // TODO: testa så detta fungerar som routing 
             switch(urlStringArray[1]){
                 case "about": return pages.AboutPage(response);
                 case "projects": return projects.ProjectsPage(response);
