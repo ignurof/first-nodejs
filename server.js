@@ -1,11 +1,11 @@
 const http = require("http");
-const url = require('url');
 
 // Get all module.exports from pages.js
-const pages = require("./pages.js");
+const DefaultPage = require("./pages.js");
 // Consolidate projects related in projects
 const projects = require("./projects.js");
 const ValidateProjects = require("./startup.js");
+const about = require("./about.js");
 
 // IP:PORT
 const hostname = "localhost";
@@ -68,7 +68,7 @@ const server = http.createServer((request, response) => {
 
             // Check the url params
             switch(urlStringArray[1]){
-                case "about": return pages.AboutPage(response);
+                case "about": return about.AboutPage(response);
                 case "projects": return projects.ProjectsPage(response);
                 case "project":
                     // If no routing character is present or if not routing argument, aka /project or /project/
@@ -84,11 +84,11 @@ const server = http.createServer((request, response) => {
                             return;
                         
                         // Should not end up here
-                        default: return pages.DefaultPage(response);
+                        default: return DefaultPage(response);
                     }
                 
                 // Should not end up here either
-                default: return pages.DefaultPage(response);
+                default: return DefaultPage(response);
             } // ROUTING END
         } else {
             // We end up here if["GET", "POST"].indexOf(request.method)=false meaning there was not a proper request method header
@@ -126,6 +126,7 @@ const server = http.createServer((request, response) => {
             // Debug
             let x = urlStringArray[2];
             console.log(x);
+
             // Check the url params
             switch(urlStringArray[1]){
                 case "project":
@@ -163,11 +164,11 @@ const server = http.createServer((request, response) => {
                             return;
                             
                         // Should not end up here
-                        default: return pages.DefaultPage(response);
+                        default: return DefaultPage(response);
                     }
                     
                 // Should not end up here either
-                default: return pages.DefaultPage(response);
+                default: return DefaultPage(response);
             } // ROUTING END
         } else {
             response.writeHead(405, privateHeaders);
