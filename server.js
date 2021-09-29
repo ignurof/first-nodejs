@@ -73,22 +73,16 @@ const server = http.createServer((request, response) => {
                 case "project":
                     // If no routing character is present or if not routing argument, aka /project or /project/
                     if(urlStringArray[2] == null || urlStringArray[2] == "") return response.end("Error empty");
-                    // If argument is available, do this
-                    switch(urlStringArray[2]){
-                        // Take the number param and get project with that id, error handling inside GetProject
-                        case urlStringArray[2]: 
-                            let projectData = projects.GetProject(urlStringArray[2]);
 
-                            // If the route is /project/3 and 3 does not exist, the server crashes because projectData type is invalid
-                            // TODO: FIX THIS NICELY
-                            response.write(projectData);
-                            response.end();
-                            return;
-                        
-                        // Should not end up here
-                        default: return DefaultPage(response);
-                    }
-                
+                    // If the projectid from frontend is out of bounds
+                    if(urlStringArray[2] < 1 || urlStringArray[2] > (projects.ProjectsLength() + 1)) return response.end(0);
+
+                    // If argument is available, do this
+                    let projectData = projects.GetProject(urlStringArray[2]);
+                    response.write(projectData);
+                    response.end();
+                    return;
+                    
                 // Should not end up here either
                 default: return DefaultPage(response);
             } // ROUTING END

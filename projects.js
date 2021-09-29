@@ -6,6 +6,10 @@ let projectList = {
 	"projects": []
 };
 
+const ProjectsLength = () => {
+	return projectList.projects.length;
+}
+
 // Delete a project by id reference
 const DeleteProject = (id) => {
 	// Iterate over all projects until correct one is found
@@ -136,6 +140,7 @@ const ProjectsPage = (response) => {
 
 // Exports the method so it can be imported(require) in another file
 module.exports = {
+	ProjectsLength,
 	DeleteProject,
 	EditProject,
 	AddProject,
