@@ -1,15 +1,14 @@
 const fs = require("fs");
 const ErrorPage = require("./errors.js");
 
-let aboutContent = "Empty";
+// JSON Object
+let aboutContent = {
+    "about": "Hello, World!"
+};
 
 const CreateNewAboutFile = () => {
-    let aboutObject = {
-        "about": "Hello, World!"
-    };
-
-    // convert into JSON
-	let data = JSON.stringify(aboutObject);
+    // convert into JSON string
+	let data = JSON.stringify(aboutContent);
 
 	// Create new file or overwrite file
 	fs.writeFile("about.json", data, (error) => {
@@ -37,13 +36,13 @@ const FillAboutContent = () => {
         console.log(data.about);
 
         // Put the data into the server var
-        aboutContent = data.about;
+        aboutContent.about = data.about;
     });
 }
 
 const AboutPage = (response) => {
     // Send the response back to client
-    response.end(aboutContent);
+    response.end(aboutContent.about);
 }
 
 // Exports the method so it can be imported(require) in another file
