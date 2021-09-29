@@ -24,6 +24,7 @@ const ValidateProjects = () => {
 		if(error == null){
 			// If file exist
 			console.log("About file exist");
+			about.FillAboutContent();
 		} else if(error.code === "ENOENT"){
 			// If file does not exist
 			console.log("About file does not exist");
