@@ -74,8 +74,12 @@ const server = http.createServer((request, response) => {
                     // If no routing character is present or if not routing argument, aka /project or /project/
                     if(urlStringArray[2] == null || urlStringArray[2] == "") return response.end("Error empty");
 
+                    let errorObj = { "error": 0 };
+                    // I need to turn Object into String to send it
+                    let errorMsg = JSON.stringify(errorObj);
+
                     // If the projectid from frontend is out of bounds
-                    if(urlStringArray[2] < 1 || urlStringArray[2] > (projects.ProjectsLength() + 1)) return response.end(0);
+                    if(urlStringArray[2] < 1 || urlStringArray[2] > projects.ProjectsLength()) return response.end(errorMsg);
 
                     // If argument is available, do this
                     let projectData = projects.GetProject(urlStringArray[2]);
