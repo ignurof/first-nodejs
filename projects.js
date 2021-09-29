@@ -6,18 +6,6 @@ let projectList = {
 	"projects": []
 };
 
-/*
-	TODO: GetProject() /project/var/ route needs dynamic route paths based on parameter var
-		  
-		  
-		  ____Projects functionality done here____
-		  Make about.txt generate on startup
-		  Edit about.txt
-		  ____Startup validation should be complete for now____
-		  Look into how to make my routes more dynamic
-		  Implement auth and encryption
-*/
-
 // Delete a project by id reference
 const DeleteProject = (id) => {
 	// Iterate over all projects until correct one is found
