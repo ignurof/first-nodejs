@@ -79,6 +79,8 @@ const server = http.createServer((request, response) => {
                         case urlStringArray[2]: 
                             let projectData = projects.GetProject(urlStringArray[2]);
 
+                            // If the route is /project/3 and 3 does not exist, the server crashes because projectData type is invalid
+                            // TODO: FIX THIS NICELY
                             response.write(projectData);
                             response.end();
                             return;
