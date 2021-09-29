@@ -6,6 +6,14 @@ let aboutContent = {
     "about": "Hello, World!"
 };
 
+const EditAboutContent = (newText) => {
+    // Assign new values from input params
+    aboutContent.about = newText;
+
+    // Regenerate file with new values
+    CreateNewAboutFile();
+}
+
 const CreateNewAboutFile = () => {
     // convert into JSON string
 	let data = JSON.stringify(aboutContent);
@@ -48,6 +56,7 @@ const AboutPage = (response) => {
 // Exports the method so it can be imported(require) in another file
 module.exports = {
     AboutPage,
+    EditAboutContent,
     FillAboutContent,
     CreateNewAboutFile
 };

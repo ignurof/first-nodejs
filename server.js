@@ -132,6 +132,8 @@ const server = http.createServer((request, response) => {
             // Check the url params
             switch(urlStringArray[1]){
                 case "project":
+                    // If no routing character is present or if not routing argument, aka /project or /project/
+                    if(urlStringArray[2] == null || urlStringArray[2] == "") return response.end("Error empty");
                     switch(urlStringArray[2]){
                         // /project/add/title/summary/content/imagea/imageb/imagec/imaged
                         case "add": 
@@ -167,6 +169,17 @@ const server = http.createServer((request, response) => {
                             
                         // Should not end up here
                         default: return DefaultPage(response);
+                    }
+                case "about":
+                    // Usage: /about/stringcontenthere
+                    // If no routing character is present or if not routing argument, aka /about or /about/
+                    if(urlStringArray[2] == null || urlStringArray[2] == "") return response.end("Error empty");
+                    switch(urlStringArray[2]){
+                        case urlStringArray[2]: 
+                            about.EditAboutContent(urlStringArray[2]);
+                            response.write("Edited about");
+                            response.end();
+                            return;
                     }
                     
                 // Should not end up here either
