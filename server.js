@@ -124,10 +124,6 @@ const server = http.createServer((request, response) => {
                 first index is empty because nothing comes before the first / in the href
             */  
             let urlStringArray = requestURL.split("/");
-            
-            // Debug
-            let x = urlStringArray[2];
-            console.log(x);
 
             // Check the url params
             switch(urlStringArray[1]){

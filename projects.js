@@ -118,7 +118,6 @@ const FillProjectList = () => {
 
 		// Assign the new parsedJSON values to the projectList
 		projectList = parsedJSON
-		console.log(projectList);
 	});
 }
 

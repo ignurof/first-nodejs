@@ -38,11 +38,6 @@ const FillAboutContent = () => {
         // Parse it back to an object since it was stringified
         data = JSON.parse(data);
 
-        // Print the object
-        console.log(data);
-        // Prints the value of specific named index
-        console.log(data.about);
-
         // Put the data into the server var
         aboutContent.about = data.about;
     });
