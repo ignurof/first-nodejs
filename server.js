@@ -49,8 +49,7 @@ const server = http.createServer((request, response) => {
             // Send back statuscode during preflight request and assign the appropriate header values
             response.writeHead(204, publicHeaders);
             // End response so client can recieve data, in this case the preflight options response
-            response.end();
-            return;
+            return response.end();;
         }
 
         // TODO: Figure out why I cant do !! instead of > -1
@@ -81,11 +80,8 @@ const server = http.createServer((request, response) => {
                     // If the projectid from frontend is out of bounds I return errorMsg that frontend can use to redirect user
                     if(urlStringArray[2] < 1 || urlStringArray[2] > projects.ProjectsLength()) return response.end(errorMsg);
 
-                    // If argument is available, do this
-                    let projectData = projects.GetProject(urlStringArray[2]);
-                    response.write(projectData);
-                    response.end();
-                    return;
+                    // If argument is available and all is OK, do this                    
+                    return response.end(projects.GetProject(urlStringArray[2]));;
                     
                 // Should not end up here either
                 default: return DefaultPage(response);
@@ -93,8 +89,7 @@ const server = http.createServer((request, response) => {
         } else {
             // We end up here if["GET", "POST"].indexOf(request.method)=false meaning there was not a proper request method header
             response.writeHead(405, publicHeaders);
-            response.end(`${request.method} is not allowed for the request.`);
-            return;
+            return response.end(`${request.method} is not allowed for the request.`);
         }
     }
 
@@ -108,9 +103,8 @@ const server = http.createServer((request, response) => {
         // Preflight
         if(request.method == "OPTIONS"){
             response.writeHead(204, privateHeaders);
-            response.end();
             // leave the thing completely after recieving options so client can recieve proper page
-            return; 
+            return response.end();
         }
 
         // Check available request method
@@ -181,13 +175,12 @@ const server = http.createServer((request, response) => {
             } // ROUTING END
         } else {
             response.writeHead(405, privateHeaders);
-            response.end(`${request.method} is not allowed for the request.`);
-            return;
+            return response.end(`${request.method} is not allowed for the request.`);
         }
     }
 
     // The early returns should make sure the client doesnt end up here
-    // we end up here if no proper endpoint
+    // we end up here if no proper endpoint and really should not end up here
     response.writeHead(405, publicHeaders);
     response.end(`Endpoint is not available right now.`);
 });
@@ -203,5 +196,3 @@ server.listen(port, hostname, (error) => {
     // Make sure required files exist, if not, create them
     ValidateProjects();
 });
-
-
