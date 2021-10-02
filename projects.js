@@ -56,18 +56,17 @@ const EditProject = (id, title, summary, content, images) => {
 
 // Adds a new project to the list.
 const AddProject = (title, summary, content, images) => {
-	// Get the current projects length, meaning the index amount
-	let x = projectList.projects.length;
 	// Add one to compensate for index starting at 0
-	let id = x + 1;
+	let id = projectList.projects.length + 1;
 
 	// JSON Object, or rather just JSON
+	// When only using var names its called Self-Referencing
 	let project = {
-		"id": id,
-		"title": title,
-		"summary": summary,
-		"content": content,
-		"images": images
+		id,
+		title,
+		summary,
+		content,
+		images
 	};
 
 	// Append to list
