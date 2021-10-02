@@ -1,5 +1,4 @@
 const fs = require("fs");
-const { decode } = require("querystring");
 const ErrorPage = require("./errors.js");
 
 // JSON Object
@@ -9,10 +8,8 @@ let aboutContent = {
 
 const EditAboutContent = (newText) => {
     // Take the URL string (weird characters for whitespace etc) and turn it into regular string
-    newText = decodeURIComponent(newText);
-
     // Assign new values from input params
-    aboutContent.about = newText;
+    aboutContent.about = decodeURIComponent(newText);
 
     // Regenerate file with new values
     CreateNewAboutFile();
