@@ -78,20 +78,14 @@ const AddProject = (title, summary, content, images) => {
 
 // Return a specific project response
 const GetProject = (id) => {
-	// Declare variable to give back to client later
-	let data;
-
 	// Iterate over available projects and when correct one found, print out the entire object
 	for(let x = 0; x < projectList.projects.length; x++){
 		if(projectList.projects[x].id == id){
-			console.log(projectList.projects[x]);
 			// convert into JSON string so it can be sent to client
-			data = JSON.stringify(projectList.projects[x]);
-
-			return data; // Early return so we dont end up at the end of the method
+			return JSON.stringify(projectList.projects[x]); // Early return so we dont end up at the end of the method
 		}
 	}
-	console.log("Error GetProject()");
+	console.error("Error GetProject()");
 }
 
 // Reads the JSON-file and fill the projectList variable
@@ -101,39 +95,34 @@ const FillProjectList = () => {
 	fs.readFile("projectList.json", (error, data) => {
 		// 404 - If file does not exist, or other error
 		if(error){
-			console.log("read error"); // DEBUG
+			console.error("read error"); // DEBUG
 		}
 
 		// parse the JSON string back into JSON object
-		let parsedJSON = JSON.parse(data);
-
 		// Assign the new parsedJSON values to the projectList
-		projectList = parsedJSON
+		projectList = JSON.parse(data);
 	});
 }
 
 // Create a new file or overwrite existing one with new contents of projectList variable
 const CreateProjectListJSON = () => {
-	// convert into JSON
-	let data = JSON.stringify(projectList);
-
+	// convert into JSON string with stringy from object
 	// Create new file or overwrite file
-	fs.writeFile("projectList.json", data, (error) => {
+	fs.writeFile("projectList.json", JSON.stringify(projectList), (error) => {
 		if(error){
-			console.log("write error"); // DEBUG
+			console.error("write error"); // DEBUG
 		}
 
 		// Very useful server logging
-		console.log("projectList.json created");
+		console.error("projectList.json created");
 	});
 }
 
 // Respond with appropriate projects method, but the gist of it is respond with projectList.json
 const ProjectsPage = (response) => {
 	// Take projectList object and stringify so it can be sent to client
-	let data = JSON.stringify(projectList);
 	// Send to client
-	response.write(data);
+	response.write(JSON.stringify(projectList));
 	response.end();
 }
 
