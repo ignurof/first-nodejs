@@ -34,7 +34,8 @@ const DeleteProject = (id) => {
 const UpdateProjectID = () => {
 	for(let x = 0; x < projectList.projects.length; x++){
 		// Take the current index value and add one to have appropriate projectid
-		projectList.projects[x].id = x + 1;
+		//projectList.projects[x].id = x + 1; OLD here, NEW below
+		projectList.projects.map(x => x.id + 1);
 	}
 }
 
