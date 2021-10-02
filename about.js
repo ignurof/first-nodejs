@@ -7,6 +7,7 @@ let aboutContent = {
 };
 
 const EditAboutContent = (newText) => {
+    console.log(newText); //DEBUG
     // Assign new values from input params
     aboutContent.about = newText;
 

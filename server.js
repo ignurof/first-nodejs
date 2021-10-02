@@ -78,7 +78,7 @@ const server = http.createServer((request, response) => {
                     // I need to turn Object into String to send it
                     let errorMsg = JSON.stringify(errorObj);
 
-                    // If the projectid from frontend is out of bounds
+                    // If the projectid from frontend is out of bounds I return errorMsg that frontend can use to redirect user
                     if(urlStringArray[2] < 1 || urlStringArray[2] > projects.ProjectsLength()) return response.end(errorMsg);
 
                     // If argument is available, do this
