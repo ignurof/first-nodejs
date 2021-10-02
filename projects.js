@@ -49,8 +49,9 @@ const EditProject = (id, title, summary, content, images) => {
 			projectList.projects[x].summary = summary;
 			projectList.projects[x].content = content;
 			projectList.projects[x].images = images;
-
-			return; // Early return so it doesnt keep looping
+			
+			// Early return so it doesnt keep looping
+			return;
 		}
 	}
 }
