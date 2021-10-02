@@ -169,7 +169,7 @@ const server = http.createServer((request, response) => {
                     // If no routing character is present or if not routing argument, aka /about or /about/
                     if(urlStringArray[2] == null || urlStringArray[2] == "") return response.end("Error empty");
                     switch(urlStringArray[2]){
-                        case urlStringArray[2]: 
+                        case urlStringArray[2]:
                             about.EditAboutContent(urlStringArray[2]);
                             response.write("Edited about");
                             response.end();
