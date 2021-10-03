@@ -13,6 +13,8 @@ const ValidateProjects = () => {
 			// If the file does not exist
 			// Adds a new project to projectList object and then runs CreateProjectListJSON() to create or overwrite the file
 			projects.AddProject("Jetpack Doggo 1", "C#, Unity", "Text about the game", ["jp1.jpg", "jp2.jpg", "jp3.jpg", "jp4.jpg"]);
+			// Since I decided to remake the entire website with a new tech stack and then make a proper admin frontend, im manually making all projects here
+			projects.AddProject("Jetpack Doggo 2", "C#, Unity", "Text about the game", ["jp2-1.jpg", "jp2-2.jpg", "jp2-3.jpg", "jp2-4.jpg"]);
 		} else {
 			throw error;
 		}

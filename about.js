@@ -22,7 +22,7 @@ const CreateNewAboutFile = () => {
 	// Create new file or overwrite file
 	fs.writeFile("about.json", data, (error) => {
 		if(error){
-			console.log("write error"); // DEBUG
+			console.error("write error"); // DEBUG
 		}
 
 		// Very useful server logging
