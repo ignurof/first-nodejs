@@ -148,7 +148,7 @@ const server = http.createServer((request, response) => {
 
 // Callback function for what is happening on server.listen (Startup?)
 server.listen(port, hostname, (error) => {
-    if(error) return console.log(error);
+    if(error) return console.error(error);
 
     // All console.log prints out on the server console
     console.log(`Server running at http://${hostname}:${port}/`);
