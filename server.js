@@ -119,45 +119,6 @@ const server = http.createServer((request, response) => {
 
             // Check the url params
             switch(urlStringArray[1]){
-                case "project":
-                    // If no routing character is present or if not routing argument, aka /project or /project/
-                    if(urlStringArray[2] == null || urlStringArray[2] == "") return response.end("Error empty");
-                    switch(urlStringArray[2]){
-                        // /project/add/title/summary/content/imagea/imageb/imagec/imaged
-                        case "add": 
-                            projects.AddProject(
-                                urlStringArray[3], // title
-                                urlStringArray[4], // summary
-                                urlStringArray[5], // content
-                                [urlStringArray[6], urlStringArray[7], urlStringArray[8], urlStringArray[9]] // images
-                            );
-
-                            response.write("Created project");
-                            response.end();
-                            return;
-                        // /project/edit/id/title/summary/content/imagea/imageb/imagec/imaged
-                        case "edit": 
-                            projects.EditProject(
-                                urlStringArray[3], // id
-                                urlStringArray[4], // title
-                                urlStringArray[5], // summary
-                                urlStringArray[6], // content
-                                [urlStringArray[7], urlStringArray[8], urlStringArray[9], urlStringArray[10]] // images
-                            );
-
-                            response.write("Edited project");
-                            response.end();
-                            return;
-                        case "delete": 
-                            projects.DeleteProject(urlStringArray[3]);
-
-                            response.write("Deleted project");
-                            response.end();
-                            return;
-                            
-                        // Should not end up here
-                        default: return DefaultPage(response);
-                    }
                 case "about":
                     // Usage: /about/stringcontenthere
                     // If no routing character is present or if not routing argument, aka /about or /about/
